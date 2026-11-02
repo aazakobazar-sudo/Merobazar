@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Mero Bazar</string>
+    <string name="default_web_client_id">dummy_client_id.apps.googleusercontent.com</string>
+</resources>

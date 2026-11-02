@@ -1,0 +1,6 @@
+{
+  "name": "Mero Bazar",
+  "description": "Nepali Bazar - Online marketplace with shops, products, khata billing, orders, and Gemini AI shopping assistant",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

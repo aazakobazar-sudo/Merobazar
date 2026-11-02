@@ -1,0 +1,67 @@
+{
+  "entities": {
+    "Pub": {
+      "path": "pub/{uid}",
+      "description": "Public merchant store catalog, products, notices",
+      "fields": {
+        "j": { "type": "string", "description": "Serialized shop, products, notices JSON" },
+        "ts": { "type": "number", "description": "Updated timestamp" }
+      }
+    },
+    "Priv": {
+      "path": "priv/{uid}",
+      "description": "Private user profile, preferences, address",
+      "fields": {
+        "j": { "type": "string", "description": "Serialized private user profile" },
+        "ts": { "type": "number", "description": "Timestamp" }
+      }
+    },
+    "Dir": {
+      "path": "dir/{uid}",
+      "description": "Directory listing for merchant or customer",
+      "fields": {
+        "j": { "type": "string", "description": "Serialized directory info {n, r, p, d}" },
+        "ts": { "type": "number", "description": "Timestamp" }
+      }
+    },
+    "Order": {
+      "path": "orders/{oid}",
+      "description": "Customer order with merchant",
+      "fields": {
+        "cuid": { "type": "string", "description": "Customer User ID" },
+        "muid": { "type": "string", "description": "Merchant User ID" },
+        "st": { "type": "string", "description": "Order status (Pending, Accepted, Delivered, Cancelled)" },
+        "j": { "type": "string", "description": "Order payload (items, address, total)" },
+        "ts": { "type": "number", "description": "Order timestamp" }
+      }
+    },
+    "Review": {
+      "path": "reviews/{rid}",
+      "description": "Customer review and rating for shop/product",
+      "fields": {
+        "cuid": { "type": "string", "description": "Customer User ID" },
+        "suid": { "type": "string", "description": "Shop/Merchant User ID" },
+        "r": { "type": "number", "description": "Rating 1 to 5" },
+        "t": { "type": "string", "description": "Review text" }
+      }
+    },
+    "Chat": {
+      "path": "chats/{cid}",
+      "description": "1:1 or group chat thread",
+      "fields": {
+        "m": { "type": "array", "description": "List of participant user UIDs" },
+        "g": { "type": "number", "description": "1 for group, 0 for direct" }
+      }
+    },
+    "Pay": {
+      "path": "pays/{pid}",
+      "description": "Merchant subscription or khata payments",
+      "fields": {
+        "muid": { "type": "string", "description": "Merchant User ID" },
+        "amt": { "type": "number", "description": "Payment amount" },
+        "ref": { "type": "string", "description": "Transaction reference" },
+        "st": { "type": "string", "description": "Status" }
+      }
+    }
+  }
+}
