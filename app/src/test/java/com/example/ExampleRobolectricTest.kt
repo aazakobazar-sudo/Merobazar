@@ -43,7 +43,8 @@ class ExampleRobolectricTest {
       email = "newmerchant@merobazar.np",
       pass = "Pass123456",
       role = "m",
-      phone = "9841999888"
+      phone = "9841999888",
+      autoSignIn = true
     )
     org.junit.Assert.assertTrue(res.isSuccess)
     val profile = repo.currentUser.value

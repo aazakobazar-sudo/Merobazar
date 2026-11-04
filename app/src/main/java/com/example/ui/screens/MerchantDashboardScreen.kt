@@ -3,8 +3,13 @@ package com.example.ui.screens
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
+import com.example.R
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -511,7 +516,15 @@ fun MerchantDashboardScreen(viewModel: MainViewModel) {
                 title = {
                     Column {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("🏪 $shopName", fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                            Image(
+                                painter = painterResource(id = R.drawable.logo_mero_bazar),
+                                contentDescription = "Mero Bazar Logo",
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("🏪 $shopName", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                             if (isHoliday) {
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Badge(containerColor = AmberGold) {

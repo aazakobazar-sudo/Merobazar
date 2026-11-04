@@ -280,6 +280,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         photo: String = "",
         la: Double? = null,
         lo: Double? = null,
+        autoSignIn: Boolean = false,
         onResult: (Boolean, String?, UserProfile?) -> Unit
     ) {
         viewModelScope.launch {
@@ -300,7 +301,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 gn = gn,
                 photo = photo,
                 la = la,
-                lo = lo
+                lo = lo,
+                autoSignIn = autoSignIn
             )
             if (res.isSuccess) {
                 onResult(true, null, res.getOrNull())

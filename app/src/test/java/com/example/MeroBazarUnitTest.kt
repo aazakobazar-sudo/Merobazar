@@ -15,10 +15,10 @@ class MeroBazarUnitTest {
     @Test
     fun testCategories_countAndContent() {
         val categories = MeroBazarSeedData.categories
-        assertEquals(5, categories.size)
-        assertEquals("आधारभूत तथा अत्यावश्यक", categories[0].name)
-        assertTrue(categories[0].subTypes.contains("किराना"))
-        assertTrue(categories[1].subTypes.contains("हार्डवेयर सामग्री"))
+        assertEquals(8, categories.size)
+        assertTrue(categories[0].name.contains("खाद्यान्न"))
+        assertTrue(categories[0].subTypes.contains("किराना तथा दाल-चामल"))
+        assertTrue(categories[3].subTypes.contains("हार्डवेयर तथा सिमेन्ट"))
     }
 
     @Test

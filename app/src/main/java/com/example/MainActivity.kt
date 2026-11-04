@@ -229,7 +229,15 @@ fun MeroBazarApp(viewModel: MainViewModel) {
 
     // Gatekeeper: If user is not authenticated, strictly show AuthScreen (Login / Register / Forgot Password)
     // Direct access to internal portal is strictly blocked until authenticated
+    // Gatekeeper: If user is not authenticated, allow viewing NepalMap or strictly show AuthScreen
     if (currentUser == null) {
+        if (currentScreen == "nepal_map") {
+            NepalMapScreen(
+                viewModel = viewModel,
+                onBack = { viewModel.navigateTo("auth") }
+            )
+            return
+        }
         AuthScreen(
             viewModel = viewModel,
             onAuthSuccess = {
@@ -411,7 +419,8 @@ fun MeroBazarApp(viewModel: MainViewModel) {
                     onOpenCart = { viewModel.navigateTo("cart") },
                     onOpenShop = { shopId -> viewModel.openShop(shopId) },
                     onOpenProduct = { prodId -> viewModel.openProduct(prodId) },
-                    onOpenPastOrders = { viewModel.navigateTo("past_orders") }
+                    onOpenPastOrders = { viewModel.navigateTo("past_orders") },
+                    onOpenNepalMap = { viewModel.navigateTo("nepal_map") }
                 )
                 "shops" -> ShopsScreen(
                     viewModel = viewModel,

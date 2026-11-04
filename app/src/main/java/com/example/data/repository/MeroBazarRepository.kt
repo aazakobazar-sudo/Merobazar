@@ -327,14 +327,14 @@ class MeroBazarRepository(private val context: Context) {
         saveProfileToCloud(updated)
     }
 
-    // Local registered accounts store (email -> Pair(hashedPassword, UserProfile))
-    // Local registered accounts store (email -> Pair(hashedPassword, UserProfile))
-    // Sole admin is aazakobazar@gmail.com / A11222333 (Automatically recognized as Admin)
+    // Pre-configured accounts for Admin, Merchant, and Customer
     private val userAccounts = mutableMapOf<String, Pair<String, UserProfile>>(
-        "aazakobazar@gmail.com" to Pair("A11222333", UserProfile(id = "usr_admin", name = "मेरो बजार मुख्य प्रशासक", email = "aazakobazar@gmail.com", role = "a", phone = "9841000000", code = "AB-A-00001", isEmailVerified = true)),
-        "nplbzr@gmail.com" to Pair("Admin123", UserProfile(id = "usr_admin2", name = "प्रशासक", email = "nplbzr@gmail.com", role = "a", phone = "9841000001", code = "AB-A-00002", isEmailVerified = true)),
-        "customer@merobazar.np" to Pair("Customer123", UserProfile(id = "usr_cust1", name = "सुजन श्रेष्ठ", email = "customer@merobazar.np", role = "c", phone = "9841234567", code = "AB-C-10001", isEmailVerified = true)),
-        "merchant@merobazar.np" to Pair("Merchant123", UserProfile(id = "shop_1", name = "राम श्रेष्ठ", email = "merchant@merobazar.np", role = "m", phone = "9841234567", code = "AB-M-10001", isEmailVerified = true))
+        "aazakobazar@gmail.com" to Pair("A11222333", UserProfile(id = "usr_admin", name = "मेरो बजार मुख्य प्रशासक", email = "aazakobazar@gmail.com", role = "a", phone = "9841000000", code = "AB-A-00001", isEmailVerified = true, isMapTagged = true, prov = "Bagmati", dist = "Kathmandu", local = "काठमाडौँ महानगरपालिका", ward = 10, toleRoad = "नयाँ बानेश्वर मार्ग", la = 27.6934, lo = 85.3421)),
+        "merchant.merobazar@gmail.com" to Pair("Merchant@123", UserProfile(id = "shop_1", name = "राम प्रसाद श्रेष्ठ (व्यापारी)", email = "merchant.merobazar@gmail.com", role = "m", phone = "9841234567", code = "AB-M-10001", isEmailVerified = true, isMapTagged = true, prov = "Bagmati", dist = "Kathmandu", local = "काठमाडौँ महानगरपालिका", ward = 10, toleRoad = "नयाँ बानेश्वर मार्ग", la = 27.6934, lo = 85.3421, shop = MeroBazarSeedData.demoShops[0].shop)),
+        "merchant@merobazar.np" to Pair("Merchant@123", UserProfile(id = "shop_1", name = "राम प्रसाद श्रेष्ठ (व्यापारी)", email = "merchant@merobazar.np", role = "m", phone = "9841234567", code = "AB-M-10001", isEmailVerified = true, isMapTagged = true, prov = "Bagmati", dist = "Kathmandu", local = "काठमाडौँ महानगरपालिका", ward = 10, toleRoad = "नयाँ बानेश्वर मार्ग", la = 27.6934, lo = 85.3421, shop = MeroBazarSeedData.demoShops[0].shop)),
+        "customer.merobazar@gmail.com" to Pair("Customer@123", UserProfile(id = "usr_cust1", name = "सुजन श्रेष्ठ (ग्राहक)", email = "customer.merobazar@gmail.com", role = "c", phone = "9841888999", code = "AB-C-10001", isEmailVerified = true, isMapTagged = true, prov = "Bagmati", dist = "Kathmandu", local = "काठमाडौँ महानगरपालिका", ward = 14, toleRoad = "कलङ्की चोक", la = 27.6938, lo = 85.2818)),
+        "customer@merobazar.np" to Pair("Customer@123", UserProfile(id = "usr_cust1", name = "सुजन श्रेष्ठ (ग्राहक)", email = "customer@merobazar.np", role = "c", phone = "9841888999", code = "AB-C-10001", isEmailVerified = true, isMapTagged = true, prov = "Bagmati", dist = "Kathmandu", local = "काठमाडौँ महानगरपालिका", ward = 14, toleRoad = "कलङ्की चोक", la = 27.6938, lo = 85.2818)),
+        "nplbzr@gmail.com" to Pair("Admin123", UserProfile(id = "usr_admin2", name = "प्रशासक", email = "nplbzr@gmail.com", role = "a", phone = "9841000001", code = "AB-A-00002", isEmailVerified = true))
     )
 
     // --- Authentication ---
@@ -443,7 +443,8 @@ class MeroBazarRepository(private val context: Context) {
         gn: String = "Male",
         photo: String = "",
         la: Double? = null,
-        lo: Double? = null
+        lo: Double? = null,
+        autoSignIn: Boolean = false
     ): Result<UserProfile> {
         val cleanEmail = email.trim().lowercase()
         // Admin accounts cannot be registered by users (Sole admin is fixed)
@@ -476,7 +477,9 @@ class MeroBazarRepository(private val context: Context) {
             shop = if (role == "m") (shopDetails?.copy(ok = false) ?: ShopDetails(name = name, type = "किराना", ok = false)) else null
         )
         userAccounts[cleanEmail] = Pair(pass, profile)
-        _currentUser.value = profile
+        if (autoSignIn) {
+            _currentUser.value = profile
+        }
         val userList = _allUsers.value.toMutableList()
         userList.add(0, profile)
         _allUsers.value = userList
